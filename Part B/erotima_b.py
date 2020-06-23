@@ -71,8 +71,8 @@ X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.25, random
 print(X_train.shape)
 model = Sequential()
 
-model.add(Dense(16, activation='sigmoid', input_dim=16521))
-model.add(Dense(16, activation='relu', input_dim=16521))
+model.add(Dense(20, activation='sigmoid', input_dim=16521))
+model.add(Dense(16, activation='relu'))
 model.add(Dense(1, activation='sigmoid'))
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy', f1_m, precision_m, recall_m])
 
@@ -81,7 +81,7 @@ early_stopping = EarlyStopping(monitor='val_loss', min_delta=0.1, verbose=1, mod
 history = model.fit(X_train,
                     y_train,
                     epochs=10,
-                    batch_size=16,
+                    batch_size=32,
                     callbacks=[early_stopping],
                     validation_data=(X_test, y_test),
                     verbose=1)
