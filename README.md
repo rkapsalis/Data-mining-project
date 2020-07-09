@@ -1,4 +1,5 @@
 # Data mining project
+Undergraduate project
 ## Part A
 * SVM
 * Missing data handling
@@ -9,3 +10,7 @@
 ## Part B
 * Data preprocessing (NLTK)
 * Neural network (Tensorflow keras)
+
+## Authors
+* Zisis Stylianos Tramparis
+* Romanos Kapsalis
