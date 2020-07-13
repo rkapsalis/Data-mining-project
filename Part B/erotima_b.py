@@ -14,24 +14,28 @@ from tensorflow.keras import backend as K
 nltk.download('punkt')
 stop = stopwords.words('english')
 
-
+#read csv
 df = pd.read_csv(r'onion-or-not.csv', encoding='utf8')
 pd.options.display.width = None
 print(df.shape)
 print(df.head(10))
 
+# Χωρίζουμε τους τίτλους σε λέξεις, δημιουργώντας ένα διάνυσμα λέξεων
 df["tokens1"] = df["text"].apply(word_tokenize)  # with punctuation
 tokenizer = RegexpTokenizer(r'\w+')
 df['tokens'] = df["text"].apply(tokenizer.tokenize)  # without punctuation
 print(df.head(10))
 
+#Από τις λέξεις αφαιρούμε τις καταλήξεις τους, κρατώντας μόνο το θέμα τους (stemming)
 stemmer = PorterStemmer()
 df['stemmed'] = df['tokens'].apply(lambda x: [stemmer.stem(y) for y in x])  # Stem every word.
 df.head(10)  # Print dataframe.
 
+# Αφαιρούμε από την συλλογή εκείνες τις λέξεις που είναι αρκετά κοινές και δεν προσφέρουν πληροφορία (stopwords removal)
 df['without_stopwords'] = df['stemmed'].apply(lambda x: [item.lower() for item in x if item.lower() not in stop])
 df.head(10)
 
+#αναθέτουμε ως βάρος την τιμή tf-idf
 tf = TfidfVectorizer(lowercase='false', analyzer='word')
 st = df['without_stopwords'].apply(lambda x: ' '.join(x))
 
@@ -44,7 +48,7 @@ rows, cols = np.nonzero(response)
 print(response[rows, cols])
 print(response.shape)
 
-
+#υπολογισμός μετρικών precision, recall, f1 score
 def recall_m(y_true, y_pred):
     true_positives = K.sum(K.round(K.clip(y_true * y_pred, 0, 1)))
     possible_positives = K.sum(K.round(K.clip(y_true, 0, 1)))
@@ -64,16 +68,16 @@ def f1_m(y_true, y_pred):
     recall = recall_m(y_true, y_pred)
     return 2 * ((precision * recall) / (precision + recall + K.epsilon()))
 
-
+#χωρίζουμε το dataset σε training-test dataset με αναλογία 75%-25%
 X = response
 Y = df['label'].values
 X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.25, random_state=42)
 print(X_train.shape)
 model = Sequential()
 
-model.add(Dense(20, activation='sigmoid', input_dim=16521))
-model.add(Dense(16, activation='relu'))
-model.add(Dense(1, activation='sigmoid'))
+model.add(Dense(20, activation='sigmoid', input_dim=16521)) #layer εισόδου
+model.add(Dense(16, activation='relu')) #hidden layer
+model.add(Dense(1, activation='sigmoid')) #layer εξόδου
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy', f1_m, precision_m, recall_m])
 
 # Stop training when a monitored metric has stopped improving
