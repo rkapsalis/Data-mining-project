@@ -11,8 +11,8 @@ Undergraduate project
 * Data preprocessing (NLTK)
   1. Word tokenizer
   2. Stemming
-  3. Stopwords removsl
-  4. tf-idf matrix
+  3. Stopwords removal
+  4. Tf-idf matrix
 * Neural network (Tensorflow keras)
 
 ## Authors
