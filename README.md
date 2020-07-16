@@ -9,6 +9,10 @@ Undergraduate project
   4. K-means
 ## Part B
 * Data preprocessing (NLTK)
+  1. Word tokenizer
+  2. Stemming
+  3. Stopwords removsl
+  4. tf-idf matrix
 * Neural network (Tensorflow keras)
 
 ## Authors
