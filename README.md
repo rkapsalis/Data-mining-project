@@ -1,5 +1,5 @@
 # Data mining project
-Undergraduate project
+Project developed for the undergraduate elective course "Data mining and Machine Learning" at [CEID](https://www.ceid.upatras.gr).
 ## Part A
 Dataset: [winequality-red.csv](https://github.com/rkapsalis/Data-mining-project/blob/master/Part%20A/winequality-red.csv)
 * Suport Vector Machines (SVM)
